@@ -1,0 +1,23 @@
+{
+  "manifest_version": 3,
+  "name": "Video Watch Time Tracker",
+  "version": "0.1.0",
+  "description": "自动统计四个平台的前台视频观看时间，并同步到 Obsidian Daily Note。",
+  "minimum_chrome_version": "120",
+  "permissions": ["storage", "alarms"],
+  "background": { "service_worker": "background.js", "type": "module" },
+  "action": { "default_title": "Video Watch Time Tracker", "default_popup": "popup.html" },
+  "options_ui": { "page": "options.html", "open_in_tab": true },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.bilibili.com/*",
+        "*://*.youtube.com/*",
+        "*://*.douyin.com/*",
+        "*://*.kuaishou.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>视频观看时长 · 设置</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 14px;
+      }
+      main {
+        max-width: 560px;
+        margin: 0 auto;
+        padding: 24px 20px 40px;
+      }
+      h1 {
+        margin: 0 0 4px;
+        font-size: 20px;
+      }
+      .subtitle {
+        margin: 0 0 24px;
+        font-size: 13px;
+        opacity: 0.7;
+      }
+      section {
+        margin-bottom: 28px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 15px;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: 132px minmax(0, 1fr);
+        gap: 12px 16px;
+        align-items: center;
+      }
+      label {
+        font-weight: 600;
+      }
+      input[type="text"],
+      input[type="number"] {
+        min-width: 0;
+        padding: 8px 10px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+        border-radius: 6px;
+        background: transparent;
+        font: inherit;
+        color: inherit;
+      }
+      .hint {
+        grid-column: 2;
+        margin: -8px 0 0;
+        font-size: 12px;
+        opacity: 0.65;
+      }
+      .vault-status {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #b00020;
+      }
+      .dot.authorized {
+        background: #2e7d32;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 12px;
+      }
+      button {
+        padding: 8px 14px;
+        border: 1px solid rgba(128, 128, 128, 0.5);
+        border-radius: 6px;
+        background: transparent;
+        cursor: pointer;
+        font: inherit;
+      }
+      button:hover {
+        background: rgba(128, 128, 128, 0.15);
+      }
+      button:disabled {
+        opacity: 0.6;
+        cursor: default;
+      }
+      button.primary {
+        border-color: transparent;
+        background: #2962ff;
+        color: #ffffff;
+      }
+      button.primary:hover {
+        background: #1e50d8;
+      }
+      #save-status {
+        margin-top: 14px;
+        min-height: 1.2em;
+        font-size: 13px;
+        color: #2e7d32;
+      }
+      #save-status.error {
+        color: #c62828;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>视频观看时长 · 设置</h1>
+      <p class="subtitle">自动统计四个平台的观看时长，并同步到 Obsidian Daily Note。</p>
+
+      <section>
+        <h2>Obsidian 同步</h2>
+        <div class="form-grid">
+          <label for="folder">Daily Note 文件夹</label>
+          <input id="folder" type="text" placeholder="日记" spellcheck="false" />
+          <p class="hint">Vault 内的相对路径，留空表示 Vault 根目录。</p>
+
+          <label for="filename">文件名格式</label>
+          <input id="filename" type="text" placeholder="YYYY-MM-DD.md" spellcheck="false" />
+          <p class="hint">必须以 .md 结尾，支持 YYYY、MM、DD、ddd（星期几缩写，如 Mon）等日期占位符，例如 YYYY-MM-DD ddd.md。</p>
+
+          <p class="hint">每日笔记中需包含以下四个字段，每个独占一行且 :: 后只能写纯数字（插件只更新已有字段，不会自动创建）：<br />
+            [PCBilibiliSeconds:: 0]<br />
+            [PCDouyinSeconds:: 0]<br />
+            [PCKuaishouSeconds:: 0]<br />
+            [PCYouTubeSeconds:: 0]
+          </p>
+
+          <label for="interval">同步间隔（秒）</label>
+          <input id="interval" type="number" min="30" max="60" step="1" />
+          <p class="hint">自动同步周期，允许 30 到 60 秒的整数。</p>
+        </div>
+        <div class="actions">
+          <button id="save" class="primary">保存设置</button>
+        </div>
+        <div id="save-status"></div>
+      </section>
+
+      <section>
+        <h2>Obsidian Vault 授权</h2>
+        <div class="vault-status">
+          <span id="vault-dot" class="dot"></span>
+          <span id="vault-text">正在读取状态…</span>
+        </div>
+        <p class="hint">选择你的 Obsidian Vault 根文件夹并授权后，插件才能读取和更新每日笔记。</p>
+        <div class="actions">
+          <button id="pick-vault">选择 Obsidian Vault 文件夹</button>
+          <button id="clear-vault">移除授权</button>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./options.ts"></script>
+  </body>
+</html>
