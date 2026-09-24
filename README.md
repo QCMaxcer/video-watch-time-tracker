@@ -39,3 +39,7 @@ Daily Note 中需要预先包含以下字段：
 ```
 
 扩展只会更新这些已有字段，不会自动创建 Daily Note 或字段。
+
+## 许可证
+
+本项目采用 [MIT License](LICENSE)。
